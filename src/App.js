@@ -6,45 +6,45 @@ const numberOfBoxes = [0, 1, 2, 3, 4, 5, 6, 7];
 
 function App() {
   const [selected, setSelected] = React.useState([]);
-  const ref = React.useRef(false);
+  const [isReversed, setIsReversed] = React.useState(false);
 
   const handleColorChange = id => {
     // make sure that clicked box cannot be choosen again
     if (!selected.includes(id)) {
-      setSelected([...selected, {id}]);
+      setSelected([...selected, id]);
     }
   };
 
   React.useEffect(() => {
-    if (numberOfBoxes.length == selected.length) {
-      ref.current = true;
+    if (numberOfBoxes.length === selected.length) {
+      setIsReversed(true);
     }
 
     function deleteLastEl() {
-      if (ref.current == true && selected.length > 0) {
-        let selectedCopy = [...selected];
+      if (isReversed && selected.length > 0) {
+        const selectedCopy = [...selected];
         selectedCopy.pop();
         setSelected(selectedCopy);
       } else {
-        ref.current = false;
+        setIsReversed(false);
       }
     }
 
     const interval = setInterval(deleteLastEl, 1000);
 
     return () => clearInterval(interval);
-  }, [selected.length, selected]);
+  }, [selected, isReversed]);
 
   return (
     <>
       <div className="App">
         <div className="container">
-          {numberOfBoxes.map((_, i) => {
+          {numberOfBoxes.map((_, id) => {
             return (
               <Box
-                key={i}
-                boxNumber={i}
-                selected={selected}
+                key={id}
+                boxNumber={id}
+                isSelected={selected.includes(id)}
                 handleColorChange={handleColorChange}
               />
             );

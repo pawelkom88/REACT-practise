@@ -1,9 +1,7 @@
-export default function Box({boxNumber, selected, handleColorChange}) {
-  const isColoured = selected.find(({id}) => id === boxNumber) ? "green" : "";
-
+export default function Box({boxNumber, isSelected, handleColorChange}) {
   return (
     <div
-      className={`${isColoured} box`}
+      className={`${isSelected ? "green" : ""} box`}
       onClick={() => {
         handleColorChange(boxNumber);
       }}></div>
